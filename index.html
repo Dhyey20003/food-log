@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Index</title>
+<style>
+  :root{ --bg:#FFFFFF; --ink:#111827; --mute:#6B7280; --line:#E5E7EB; --soft:#F3F4F6; --green:#15803D; --greenBg:#DCFCE7; --red:#B91C1C; --redBg:#FEE2E2; --amber:#B45309; --amberBg:#FEF3C7; --blue:#1D4ED8; --blueBg:#DBEAFE; }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.45;padding-bottom:150px;min-height:100vh}
+  button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+  input,select{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+  input::placeholder{color:#9CA3AF}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .wrap{max-width:560px;margin:0 auto;padding:0 18px}
+  .num{font-variant-numeric:tabular-nums;letter-spacing:-.02em;font-weight:700}
+
+  .status{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .status .in{max-width:560px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
+  .status .in i{width:10px;height:10px;border-radius:50%;background:#9CA3AF;flex:none}
+  .status.live .in i{background:var(--green);animation:bl 1.1s infinite}
+  .status.live .in{color:var(--green)}
+  .status.off .in{color:var(--mute)}
+  .status .in .set{margin-left:auto;color:var(--mute);font-weight:500;font-size:13px;padding:4px 8px;border:1px solid var(--line);border-radius:8px}
+  @keyframes bl{0%,100%{opacity:1}50%{opacity:.25}}
+  .heardline{max-width:560px;margin:0 auto;padding:0 18px 10px;font-size:14px;color:var(--mute);min-height:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .heardline:empty{display:none}
+
+  .banner{border-radius:12px;padding:12px 14px;margin:14px 0 0;font-size:14px;line-height:1.5}
+  .banner.red{background:var(--redBg);color:var(--red)}
+  .banner.amber{background:var(--amberBg);color:var(--amber)}
+  .banner b{display:block;margin-bottom:2px}
+
+  .hero{padding:22px 0 6px}
+  .hero .date{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mute);margin-bottom:14px}
+  .hero .date b{color:var(--ink);font-weight:700;font-size:16px}
+  .hero .date button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);display:grid;place-items:center;color:var(--mute)}
+  .hero .date button:disabled{opacity:.3}
+  .hero .date .streak{margin-left:auto;font-size:13px;font-weight:600;color:var(--green);background:var(--greenBg);padding:4px 10px;border-radius:999px}
+  .prot{display:flex;align-items:baseline;gap:8px}
+  .prot .big{font-size:64px;line-height:.95}
+  .prot .of{font-size:16px;color:var(--mute)}
+  .prot .of b{color:var(--ink)}
+  .bar{height:10px;border-radius:999px;background:var(--soft);overflow:hidden;margin-top:12px}
+  .bar i{display:block;height:100%;border-radius:999px;background:var(--green);transition:width .4s}
+  .cals{display:flex;align-items:baseline;gap:8px;margin-top:18px;font-size:15px;color:var(--mute)}
+  .cals .n{font-size:26px;color:var(--ink)}
+  .cals .r{margin-left:auto;font-size:13px}
+  .cals .r.over{color:var(--red)}
+  .cf{margin-top:4px;font-size:13px;color:var(--mute)}
+  .bar.thin{height:6px;margin-top:8px}
+  .bar.thin i{background:#111827}
+  .bar.thin i.over{background:var(--red)}
+
+  .quick{margin-top:18px}
+  .quick h2{margin:0 0 8px;font-size:12.5px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-size:14px;font-weight:600;white-space:nowrap}
+  .chip small{color:var(--mute);font-weight:500;margin-left:5px}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip.on small{color:#D1D5DB}
+
+  .ask{border:1px solid #FCD34D;background:var(--amberBg);border-radius:14px;padding:14px;margin-top:18px}
+  .ask .t{display:flex;gap:8px;align-items:flex-start;font-size:14.5px;font-weight:600;color:var(--amber)}
+  .ask .t span{flex:1}
+  .ask .t button{color:var(--amber);font-size:22px;line-height:1}
+  .ask .body{margin-top:10px;font-size:13.5px;color:#78350F}
+  .ask .chips{margin-top:10px}
+  .ask .chip{border-color:#FCD34D;background:#fff}
+  .ask .spin{display:inline-block;width:12px;height:12px;border:2px solid #FCD34D;border-top-color:var(--amber);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  .ask .g{display:inline-block;width:80px;margin:0 8px 0 0;padding:6px 10px;text-align:right}
+
+  .meal{margin-top:22px}
+  .meal .mh{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+  .meal .mh h2{margin:0;font-size:13px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+  .meal .mh span{margin-left:auto;font-size:13px;color:var(--mute)}
+  .entry{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding:10px 0}
+  .entry .nm{flex:1;min-width:0;text-align:left;padding:0}
+  .entry .nm b{display:block;font-weight:600;font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .entry .nm span{display:block;font-size:12.5px;color:var(--mute);margin-top:1px}
+  .entry .p{flex:none;text-align:right;min-width:52px}
+  .entry .p b{display:block;font-size:17px;font-variant-numeric:tabular-nums}
+  .entry .p span{font-size:11px;color:var(--mute)}
+  .entry .k{flex:none;text-align:right;min-width:60px;color:var(--mute);font-size:13px}
+  .entry .del{flex:none;width:36px;height:36px;border-radius:8px;display:grid;place-items:center;color:#9CA3AF}
+  .entry .del:active{background:var(--redBg);color:var(--red)}
+  .entry .del svg{width:17px;height:17px}
+  .empty{text-align:center;color:var(--mute);font-size:14.5px;padding:34px 20px;line-height:1.6}
+  .empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+
+  .week{display:flex;gap:7px;align-items:flex-end;height:74px;margin-top:12px}
+  .week button{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:6px}
+  .week .b{background:var(--soft);border-radius:4px 4px 0 0;min-height:4px;position:relative}
+  .week .b.hit{background:var(--green)}
+  .week .b.part{background:#86EFAC}
+  .week .l{font-size:10.5px;color:var(--mute);text-align:center}
+  .week button.sel .l{color:var(--ink);font-weight:700}
+  .week .goal{position:absolute;left:0;right:0;border-top:1px dashed #9CA3AF}
+
+  .dock{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);padding:10px 18px calc(12px + env(safe-area-inset-bottom))}
+  .dock .in{max-width:560px;margin:0 auto;display:flex;gap:10px;align-items:center}
+  .dock input{flex:1;border-radius:999px;padding:12px 16px}
+  .dock .mic{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;flex:none}
+  .dock .mic.live{background:var(--green)}
+  .dock .mic svg{width:22px;height:22px}
+  .dock .hint{max-width:560px;margin:6px auto 0;font-size:12px;color:var(--mute);text-align:center}
+
+  .scrim{position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:50;display:none}
+  .scrim.on{display:block}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .26s cubic-bezier(.2,.8,.3,1);padding:10px 18px calc(24px + env(safe-area-inset-bottom))}
+  .sheet.on{transform:translateY(0)}
+  .grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:6px auto 16px}
+  .sheet h3{font-size:21px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
+  .sheet p.sub{color:var(--mute);font-size:14px;margin:0 0 16px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:13px;font-weight:600;color:var(--mute);margin-bottom:6px}
+  .field .hint{font-size:12.5px;color:var(--mute);margin-top:6px;line-height:1.5}
+  .field .hint a{color:var(--blue)}
+  .row{display:flex;gap:10px}
+  .btn{border-radius:12px;padding:14px;font-weight:700;text-align:center;width:100%;border:1px solid var(--line);background:#fff}
+  .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .btn.danger{color:var(--red);border-color:#FCA5A5}
+  .btn:disabled{opacity:.45}
+  .stack>*+*{margin-top:10px}
+  .seg{display:flex;gap:4px;background:var(--soft);border-radius:12px;padding:4px;margin-bottom:16px}
+  .seg button{flex:1;padding:9px 4px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--mute)}
+  .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .gline{display:flex;gap:10px;align-items:center}
+  .gline .gwrap{flex:none;width:120px;position:relative}
+  .gline .gwrap input{padding-right:34px;font-weight:700;text-align:right}
+  .gline .gwrap em{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-style:normal;font-size:13px;color:var(--mute)}
+  .gline .out{flex:1;text-align:right;font-size:13px;color:var(--mute)}
+  .gline .out b{font-size:20px;color:var(--ink);display:block}
+  .per{font-size:12px;color:var(--mute);margin-top:10px}
+  .ok{background:var(--greenBg);color:var(--green);border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px}
+  .err{background:var(--redBg);color:var(--red);border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px}
+  .spin{display:flex;gap:10px;align-items:center;justify-content:center;padding:20px 0;color:var(--mute);font-size:14px}
+  .spin i{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--ink);border-radius:50%;animation:sp .7s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .foodrow{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .foodrow b{flex:1;font-weight:600}
+  .foodrow span{color:var(--mute);font-size:12.5px;white-space:nowrap}
+  .foodrow button{color:#9CA3AF;font-size:20px;padding:0 6px}
+
+  .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,16px);z-index:70;background:var(--ink);color:#fff;border-radius:12px;padding:12px 12px 12px 16px;display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:all .2s;max-width:calc(100vw - 36px)}
+  .toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .toast button{color:#86EFAC;font-weight:700;padding:6px 8px;border-radius:8px}
+  .toast span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .setup{position:fixed;inset:0;z-index:80;background:#fff;overflow-y:auto;display:none;padding:0 18px calc(28px + env(safe-area-inset-bottom))}
+  .setup.on{display:block}
+  .setup .inner{max-width:520px;margin:0 auto;padding-top:38px}
+  .setup h1{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px}
+  .setup .lead{color:var(--mute);font-size:15px;margin:0 0 22px}
+  .step{border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+  .step b.h{display:block;font-size:15px;margin-bottom:6px}
+  .step p{margin:0 0 12px;font-size:13.5px;color:var(--mute);line-height:1.55}
+  .step p a{color:var(--blue)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="setup" id="setup">
+  <div class="inner">
+    <h1>Index</h1>
+    <p class="lead">Your regular foods are already loaded. This just needs your targets and a free Google key for anything new.</p>
+    <div class="step">
+      <b class="h">Targets</b>
+      <div class="row">
+        <div class="field" style="flex:1;margin:0"><label for="wProt">Protein a day, grams</label><input id="wProt" type="number" inputmode="numeric" value="150"></div>
+        <div class="field" style="flex:1;margin:0"><label for="wGoal">Calories a day</label><input id="wGoal" type="number" inputmode="numeric" value="2900"></div>
+      </div>
+    </div>
+    <div class="step">
+      <b class="h">Groq key, for Whisper hearing</b>
+      <p>Whisper is the speech model that does the listening. It runs on Groq's servers for free. Get a key at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>, sign in with Google, tap Create API Key, copy it. Starts with gsk_. Leave empty to use Chrome's built in hearing instead.</p>
+      <input id="wGroq" type="password" placeholder="gsk_..." autocomplete="off">
+    </div>
+    <div class="step">
+      <b class="h">Google AI key</b>
+      <p>Only used for a food the app has never heard. Get one free at <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener">aistudio.google.com/api-keys</a>.</p>
+      <input id="wKey" type="password" placeholder="AIza..." autocomplete="off">
+      <div id="wKeyMsg" style="margin-top:10px"></div>
+    </div>
+    <div class="step">
+      <b class="h">Google Sheet link</b>
+      <p>For the nightly email and reminders. Paste the /exec link from Apps Script, or skip for now.</p>
+      <input id="wSheet" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+    </div>
+    <button class="btn primary" id="wDone">Start</button>
+  </div>
+</div>
+
+<div class="status off" id="status"><div class="in"><i></i><span id="statusTxt">Tap anywhere to start listening</span><button class="set" id="openSet">Settings</button></div></div>
+<div class="heardline" id="heardline"></div>
+
+<div class="wrap" id="main">
+  <div id="micWarn"></div>
+
+  <div class="hero">
+    <div class="date">
+      <button id="prevDay" aria-label="Previous day"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <b id="dLabel">Today</b><span id="dSub"></span>
+      <button id="nextDay" aria-label="Next day"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+      <span class="streak" id="streak" style="display:none"></span>
+    </div>
+    <div class="prot"><div class="big num" id="vP">0</div><div class="of">of <b id="protGoal">150</b> g protein</div></div>
+    <div class="bar"><i id="bP" style="width:0%"></i></div>
+    <div class="cals"><span class="n num" id="kcal">0</span><span>of <span id="goalTxt">2900</span> kcal</span><span class="r" id="leftTag"></span></div>
+    <div class="bar thin"><i id="bK" style="width:0%"></i></div>
+    <div class="cf" id="cf"></div>
+  </div>
+
+  <div class="quick" id="quick" style="display:none">
+    <h2>Tap to log again</h2>
+    <div class="chips" id="quickChips"></div>
+  </div>
+
+  <div id="asks"></div>
+  <div id="log"></div>
+
+  <div class="meal">
+    <div class="mh"><h2>Last 7 days, protein</h2><span id="avgTxt"></span></div>
+    <div class="week" id="week"></div>
+  </div>
+</div>
+
+<div class="dock">
+  <div class="in">
+    <input id="typeIn" placeholder="or type: paneer 100" autocomplete="off" autocorrect="off" enterkeyhint="done">
+    <button class="mic" id="micBtn" aria-label="Start or stop listening"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></button>
+  </div>
+  <div class="hint" id="dockHint">Say the food and the grams. It saves straight away.</div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="toast" id="toast"><span id="toastTxt"></span><button id="toastBtn">Undo</button></div>
+
+<div class="sheet" id="editSheet">
+  <div class="grab"></div>
+  <h3 id="eTitle">Edit</h3>
+  <div class="seg" id="eSeg"></div>
+  <div class="field"><label for="eName">Food</label><input id="eName"></div>
+  <div class="gline"><div class="gwrap"><input id="eG" type="number" inputmode="decimal" aria-label="Grams"><em>g</em></div><div class="out"><b id="eKc">0</b><span id="eMm"></span></div></div>
+  <div class="per" id="ePer"></div>
+  <div class="row" style="margin-top:16px">
+    <button class="btn danger" id="eDel">Delete</button>
+    <button class="btn primary" id="eSave">Save</button>
+  </div>
+</div>
+
+<div class="sheet" id="setSheet">
+  <div class="grab"></div>
+  <h3>Settings</h3>
+  <div class="row">
+    <div class="field" style="flex:1"><label for="sProt">Protein a day</label><input id="sProt" type="number" inputmode="numeric"></div>
+    <div class="field" style="flex:1"><label for="sGoal">Calories a day</label><input id="sGoal" type="number" inputmode="numeric"></div>
+  </div>
+  <div class="field">
+    <label for="sKey">Google AI key</label>
+    <input id="sKey" type="password" autocomplete="off" placeholder="AIza...">
+    <div id="sKeyMsg" style="margin-top:8px"></div>
+    <button class="btn" id="sKeyCheck" style="margin-top:8px">Check key</button>
+    <div class="hint"><span id="sModel"></span></div>
+  </div>
+  <div class="field">
+    <label for="sEngine">Hearing</label>
+    <select id="sEngine">
+      <option value="whisper">Whisper on Groq (most accurate)</option>
+      <option value="chrome">Chrome built in (fastest, no key)</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="sGroq">Groq key</label>
+    <input id="sGroq" type="password" autocomplete="off" placeholder="gsk_...">
+    <div class="hint">Free at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>. Needed for Whisper.</div>
+  </div>
+  <div class="field">
+    <label for="sLang">Speech language</label>
+    <select id="sLang">
+      <option value="en-IN">English, India</option>
+      <option value="hi-IN">Hindi</option>
+      <option value="gu-IN">Gujarati</option>
+      <option value="en-US">English, US</option>
+    </select>
+    <div class="hint">Whisper ignores this and hears Hindi and Gujarati words in English sentences on its own.</div>
+  </div>
+  <div class="field">
+    <label for="sSheet">Google Sheet web app link</label>
+    <input id="sSheet" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+    <div id="syncMsg" style="margin-top:8px"></div>
+    <button class="btn" id="syncNow" style="margin-top:8px">Send everything to my Sheet now</button>
+  </div>
+  <div class="field">
+    <label>My foods</label>
+    <div class="hint" style="margin:0 0 6px">Your brands and anything learned from the AI. Say "new food Amul cheese per 20 gram 4 protein 62 calories" to add one by voice.</div>
+    <div id="myFoods"></div>
+  </div>
+  <div class="stack">
+    <button class="btn" id="exportCsv">Download a CSV copy</button>
+    <button class="btn danger" id="wipe">Delete all logged meals on this phone</button>
+    <button class="btn primary" id="setClose">Done</button>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   FOOD DATABASE
+   Each row: [name, kcal, protein, carbs, fat, typical serving g, aliases, group]
+   Values are per 100 g (or 100 ml for liquids). Indian home cooking.
+   Aliases include the way Indian English speech recognition commonly
+   mishears the word, so "panir", "dhal", "rotti" all still land.
+   Group ties variants together so the app can ask "which paneer?".
+   ================================================================ */
+var FOODS = [
+  /* rice */
+  ["Cooked rice",130,2.7,28,0.3,150,"rice|white rice|plain rice|steamed rice|boiled rice|chawal|chaval|rise|jeera rice|cooked rice|bhaat|bhat|bhath","rice"],
+  ["Brown rice, cooked",123,2.7,26,1,150,"brown rice","rice"],
+  ["Veg biryani",165,4,24,6,200,"biryani|veg biryani|vegetable biryani|biriyani","rice"],
+  ["Chicken biryani",180,9,20,7,200,"chicken biryani|chicken biriyani","rice"],
+  ["Pulao",150,3,25,4,150,"pulao|pulav|veg pulao|peas pulao","rice"],
+  ["Fried rice",165,4,26,5,150,"fried rice|veg fried rice","rice"],
+  ["Curd rice",120,3,19,3,150,"curd rice|dahi rice|thayir sadam","rice"],
+  ["Khichdi",120,4.5,20,2.5,200,"khichdi|khichri|kichdi|kichadi",""],
+  ["Dal bhat",120,4.3,22,1.3,300,"dal bhat|dal bhaat|dal rice|dal chawal|daal bhaat|dal and rice",""],
+  ["Handvo",180,6,25,7,100,"handvo|handwo",""],
+  ["Undhiyu",140,4,14,8,150,"undhiyu|undhiya",""],
+  ["Lemon rice",150,3,25,4,150,"lemon rice","rice"],
+  ["Poha",130,2.5,25,2.5,150,"poha|kanda poha|aval|pohe",""],
+  ["Upma",135,3.5,22,4,150,"upma|uppma|rava upma",""],
+  ["Idli",130,4,26,0.5,40,"idli|idly|idlis|idlies","south"],
+  ["Plain dosa",170,4,28,4.5,80,"dosa|plain dosa|dosai|dosas","south"],
+  ["Masala dosa",190,4,27,7,150,"masala dosa","south"],
+  ["Uttapam",160,4,26,4,120,"uttapam|utthapam|uthappam","south"],
+  ["Medu vada",250,7,28,12,50,"vada|medu vada|wada|vadai","south"],
+  ["Sambar",70,3,10,2,150,"sambar|sambhar|sambaar",""],
+  ["Rasam",30,1,5,0.5,150,"rasam",""],
+
+  /* breads */
+  ["Roti",265,9,50,4,40,"roti|rotti|rotli|rotlis|chapati|chapathi|chappati|phulka|fulka|rotis|chapatis|whole wheat roti|wheat roti","roti"],
+  ["Roti with ghee",300,8.5,48,9,45,"ghee roti|roti with ghee|ghee chapati","roti"],
+  ["Paratha",300,7,40,13,80,"paratha|parantha|parotta|plain paratha|lachha paratha","roti"],
+  ["Aloo paratha",280,6,40,10,120,"aloo paratha|stuffed paratha|potato paratha","roti"],
+  ["Naan",290,9,50,6,90,"naan|nan|butter naan","roti"],
+  ["Bhakri",290,10,55,3,50,"bhakri|jowar roti|bajra roti|jowar bhakri|bajra bhakri","roti"],
+  ["Thepla",320,8,42,13,40,"thepla|theplas|methi thepla","roti"],
+  ["Puri",350,6,40,18,25,"puri|poori|pooris|puris","roti"],
+  ["Bhatura",320,7,45,12,80,"bhatura|bhature","roti"],
+  ["White bread",265,9,49,3.2,30,"bread|white bread|bread slice|slice of bread|toast","bread"],
+  ["Brown bread",250,12,42,3.5,30,"brown bread|whole wheat bread|wheat bread|multigrain bread","bread"],
+  ["Pav",270,9,50,3,40,"pav|pao|ladi pav|bun","bread"],
+
+  /* breakfast grains */
+  ["Oats, dry",380,13,66,7,40,"oats|dry oats|rolled oats|oatmeal|quaker oats","oats"],
+  ["Oats cooked in water",70,2.5,12,1.5,200,"oats in water|oats porridge|oats with water","oats"],
+  ["Oats cooked in milk",100,4,14,3,200,"oats in milk|oats with milk|milk oats|masala oats","oats"],
+  ["Dalia",110,3.5,22,0.5,200,"dalia|daliya|broken wheat|lapsi",""],
+  ["Muesli",380,10,65,8,40,"muesli|granola",""],
+  ["Cornflakes",370,7,84,1,30,"cornflakes|corn flakes|chocos|cereal",""],
+  ["Quinoa, cooked",120,4.4,21,1.9,150,"quinoa",""],
+  ["Pasta, cooked",160,5.5,31,1,150,"pasta|macaroni|penne|spaghetti|white sauce pasta|red sauce pasta",""],
+  ["Instant noodles",170,4,24,7,200,"maggi|noodles|instant noodles|hakka noodles|chowmein|chow mein",""],
+  ["Sabudana khichdi",190,0.5,35,5,150,"sabudana|sabudana khichdi|sago",""],
+
+  /* dals and legumes */
+  ["Toor dal",110,6,17,2,150,"dal|daal|dhal|dhaal|doll|toor dal|tur dal|tuvar dal|arhar dal|yellow dal|toor|tuvar|arhar","dal"],
+  ["Moong dal",105,7,17,1.5,150,"moong dal|mung dal|moong|mung|yellow moong|green moong dal|mag|mag ni dal|boiled moong|whole moong","dal"],
+  ["Masoor dal",110,7,17,1.5,150,"masoor dal|masur dal|red lentil|masoor","dal"],
+  ["Chana dal",130,8,20,2.5,150,"chana dal|channa dal","dal"],
+  ["Urad dal",120,7,18,2,150,"urad dal|urad|black dal","dal"],
+  ["Dal tadka",125,6,16,4,150,"dal tadka|dal fry|tadka dal","dal"],
+  ["Dal makhani",160,6,15,8,150,"dal makhani|makhani dal","dal"],
+  ["Rajma",130,7,19,3,150,"rajma|kidney beans|rajma curry|rajmah",""],
+  ["Chole",150,7,20,5,150,"chole|chhole|chana masala|chickpea curry|chole masala",""],
+  ["Boiled chana",165,9,27,3,100,"boiled chana|kala chana|black chana|chana|channa|chickpeas|boiled chickpeas",""],
+  ["Roasted chana",370,20,60,5,30,"roasted chana|bhuna chana|roasted gram",""],
+  ["Moong sprouts",30,3,6,0.2,100,"sprouts|moong sprouts|sprouted moong|mixed sprouts",""],
+  ["Soya chunks, dry",345,52,33,0.5,40,"soya chunks|soya|soya nuggets|dry soya chunks|nutrela|soy chunks","soya"],
+  ["Soya chunks, boiled",130,19,12,0.5,100,"boiled soya chunks|cooked soya chunks|boiled soya","soya"],
+  ["Tofu",80,8,2,4.5,100,"tofu",""],
+  ["Kadhi",90,3,8,5,150,"kadhi|kadi|gujarati kadhi|punjabi kadhi",""],
+
+  /* paneer */
+  ["Paneer",265,18,3.5,20,100,"paneer|panir|paner|pannier|panner|pineer|paneer raw|raw paneer|cottage cheese|fresh paneer|plain paneer|amul paneer|malai paneer","paneer"],
+  ["Low fat paneer",160,22,4,6,100,"low fat paneer|lowfat paneer|skimmed paneer|diet paneer","paneer"],
+  ["Paneer bhurji",230,13,6,17,100,"paneer bhurji|bhurji paneer|panir bhurji","paneer"],
+  ["Paneer butter masala",200,8,9,15,150,"paneer butter masala|butter paneer|paneer makhani","paneer"],
+  ["Palak paneer",160,8,7,11,150,"palak paneer|saag paneer","paneer"],
+  ["Paneer tikka",240,15,6,17,100,"paneer tikka|tikka paneer|grilled paneer|tandoori paneer","paneer"],
+  ["Shahi paneer",220,8,10,17,150,"shahi paneer","paneer"],
+  ["Matar paneer",170,8,10,11,150,"matar paneer|mutter paneer|peas paneer","paneer"],
+  ["Kadai paneer",190,9,8,14,150,"kadai paneer|kadhai paneer|karahi paneer","paneer"],
+  ["Chilli paneer",250,11,15,16,120,"chilli paneer|chili paneer","paneer"],
+  ["Fried paneer",320,17,5,26,100,"fried paneer|paneer fried|paneer pakora|paneer fry","paneer"],
+
+  /* dairy */
+  ["Full cream milk",68,3.2,4.8,3.9,200,"milk|full cream milk|full fat milk|whole milk|doodh|dudh|amul gold|cow milk|milk full cream","milk"],
+  ["Toned milk",58,3.1,4.7,3,200,"toned milk|amul taaza|taaza","milk"],
+  ["Double toned milk",45,3.1,4.7,1.5,200,"double toned milk|double toned|slim milk","milk"],
+  ["Skimmed milk",35,3.4,5,0.1,200,"skimmed milk|skim milk|fat free milk|amul slim","milk"],
+  ["Buffalo milk",100,4,5,7,200,"buffalo milk|bhains ka doodh","milk"],
+  ["Soy milk",45,3.3,3,1.8,200,"soy milk|soya milk","milk"],
+  ["Almond milk",25,0.6,1,1.5,200,"almond milk","milk"],
+  ["Curd",65,3.3,4.5,3.5,150,"curd|dahi|yogurt|yoghurt|kurd|card|plain curd|home curd|full fat curd|curt|dahin","curd"],
+  ["Low fat curd",45,3.5,5,1,150,"low fat curd|low fat dahi|skimmed curd|low fat yogurt|toned curd","curd"],
+  ["Greek yogurt",60,10,4,0.5,150,"greek yogurt|greek yoghurt|epigamia|high protein curd","curd"],
+  ["Hung curd",100,8,5,5,100,"hung curd|hung dahi","curd"],
+  ["Buttermilk",30,1.5,3,1,200,"buttermilk|chaas|chhaas|chach|mattha|majjige",""],
+  ["Sweet lassi",90,3,14,2.5,250,"lassi|sweet lassi|mango lassi",""],
+  ["Cheese slice",330,20,5,27,20,"cheese|cheese slice|processed cheese|amul cheese|cheese cube","cheese"],
+  ["Cheddar cheese",400,25,1.3,33,30,"cheddar|cheddar cheese","cheese"],
+  ["Mozzarella",280,22,2,22,30,"mozzarella|mozzarella cheese|pizza cheese","cheese"],
+  ["Butter",720,0.5,0.6,81,10,"butter|amul butter|makhan|salted butter",""],
+  ["Ghee",900,0,0,100,5,"ghee|gi|ghi|desi ghee|clarified butter|cow ghee",""],
+  ["Cooking oil",884,0,0,100,5,"oil|tel|refined oil|sunflower oil|groundnut oil|peanut oil|mustard oil|olive oil|coconut oil|vegetable oil|rice bran oil|cooking oil",""],
+  ["Malai",300,2,3,30,20,"malai|cream|fresh cream|milk cream",""],
+  ["Condensed milk",320,8,55,8,20,"condensed milk|milkmaid",""],
+  ["Whey protein",400,75,8,6,30,"whey|whey protein|protein powder|protein shake|protein scoop|scoop of whey|protein|isolate",""],
+
+  /* eggs */
+  ["Boiled egg",155,13,1.1,11,50,"egg|eggs|anda|ande|boiled egg|boiled eggs|hard boiled egg|whole egg|whole eggs","egg"],
+  ["Egg white",52,11,0.7,0.2,33,"egg white|egg whites|boiled egg white|whites","egg"],
+  ["Omelette",200,13,1.5,15,100,"omelette|omelet|omlet|omelette with oil|masala omelette","egg"],
+  ["Egg bhurji",190,12,3,14,100,"egg bhurji|anda bhurji|bhurji|scrambled egg|scrambled eggs","egg"],
+  ["Fried egg",195,13.5,1,15,50,"fried egg|fried eggs|half fry|sunny side up|egg fry","egg"],
+  ["Egg curry",150,10,5,10,150,"egg curry|anda curry|egg masala","egg"],
+
+  /* chicken */
+  ["Chicken breast, cooked",165,31,0,3.6,150,"chicken|chicken breast|boiled chicken|grilled chicken|chicken grilled|chicken boiled|plain chicken|roasted chicken|chicken breast boiled|chiken|chikan|murgi","chicken"],
+  ["Chicken thigh, cooked",210,26,0,11,150,"chicken thigh|chicken leg|chicken legs|drumstick|chicken drumstick|leg piece","chicken"],
+  ["Chicken curry",160,14,5,10,200,"chicken curry|home chicken curry|chicken gravy|chicken masala|chicken with gravy|kadai chicken","chicken"],
+  ["Tandoori chicken",180,25,3,8,150,"tandoori chicken|chicken tandoori","chicken"],
+  ["Chicken tikka",190,24,4,9,150,"chicken tikka|tikka","chicken"],
+  ["Butter chicken",220,14,8,16,200,"butter chicken|chicken makhani|murgh makhani","chicken"],
+  ["Chicken kebab",200,22,5,10,100,"chicken kebab|seekh kebab|kebab|kabab","chicken"],
+  ["Fried chicken",280,20,12,17,150,"fried chicken|kfc|chicken fry|chicken 65|chicken lollipop|crispy chicken","chicken"],
+  ["Chicken sausage",250,14,4,20,50,"sausage|sausages|chicken sausage","chicken"],
+
+  /* other meat and fish */
+  ["Mutton curry",200,15,6,13,200,"mutton|mutton curry|goat curry|lamb curry|gosht|mutton gravy|mutton masala","mutton"],
+  ["Mutton, cooked lean",250,26,0,16,150,"boiled mutton|lean mutton|roasted mutton|mutton pieces","mutton"],
+  ["Keema",220,16,5,15,150,"keema|kheema|mutton keema|chicken keema|mince","mutton"],
+  ["Fish curry",130,14,4,6,200,"fish|fish curry|machli|machhi|fish gravy|fish masala|meen curry","fish"],
+  ["Fried fish",220,20,8,12,150,"fried fish|fish fry|fish fried|rawas fry|surmai fry|bombil fry","fish"],
+  ["Grilled fish",120,20,0,4,150,"grilled fish|steamed fish|baked fish|fish grilled|rohu|pomfret|basa|tilapia|surmai|bangda","fish"],
+  ["Salmon, cooked",200,22,0,13,150,"salmon","fish"],
+  ["Prawns, cooked",100,22,1,1,100,"prawns|prawn|shrimp|jhinga|prawn curry","fish"],
+  ["Tuna",110,25,0,1,100,"tuna|canned tuna","fish"],
+
+  /* sabzi (cooked with oil, home style) */
+  ["Aloo sabzi",130,2,18,6,150,"aloo|aloo sabzi|potato sabzi|aloo ki sabzi|potato curry|aloo bhaji|batata bhaji|bataka|bateta|jeera aloo|aloo fry|sabzi|sabji|subzi","sabzi"],
+  ["Aloo gobi",110,3,12,6,150,"aloo gobi|aloo gobhi|potato cauliflower","sabzi"],
+  ["Aloo matar",120,3,16,5,150,"aloo matar|aloo mutter|aloo peas","sabzi"],
+  ["Bhindi",120,2.5,9,8,150,"bhindi|okra|bhindi fry|bhindi masala|ladies finger|lady finger|bhendi|bhinda","sabzi"],
+  ["Palak sabzi",60,3,5,3,150,"palak|palak sabzi|spinach sabzi|saag|palak bhaji","sabzi"],
+  ["Gobi sabzi",90,3,8,6,150,"gobi|gobhi|cauliflower|cauliflower sabzi|gobi sabzi","sabzi"],
+  ["Mixed veg sabzi",100,3,10,6,150,"mixed veg|mix veg|mixed vegetable|mix vegetable|vegetable sabzi|veg sabzi|mixed veg sabzi|shaak|shak","sabzi"],
+  ["Baingan bharta",90,2,8,6,150,"baingan|baingan bharta|brinjal|brinjal sabzi|eggplant|bharta|baigan|ringan|ringna","sabzi"],
+  ["Lauki sabzi",45,1.5,6,2,150,"lauki|lauki sabzi|bottle gourd|dudhi|ghiya","sabzi"],
+  ["Karela",90,2.5,8,6,100,"karela|bitter gourd|karela fry","sabzi"],
+  ["Tinda",60,1.5,7,3,150,"tinda|tindora|tendli|parwal","sabzi"],
+  ["Gajar matar",90,3,12,4,150,"gajar matar|carrot peas|gajar mutter","sabzi"],
+  ["Beans sabzi",80,2.5,9,4.5,150,"beans|beans sabzi|french beans|green beans|beans poriyal","sabzi"],
+  ["Capsicum sabzi",80,1.5,8,5,150,"capsicum|capsicum sabzi|shimla mirch|bell pepper","sabzi"],
+  ["Cabbage sabzi",70,2,7,4,150,"cabbage|cabbage sabzi|patta gobi|gobi patta|cabbage poriyal","sabzi"],
+  ["Methi sabzi",80,4,7,4,150,"methi|methi sabzi|methi bhaji|methi aloo","sabzi"],
+  ["Mushroom sabzi",90,3.5,6,6,150,"mushroom|mushrooms|mushroom sabzi|mushroom masala","sabzi"],
+  ["Veg kurma",130,3,12,8,150,"kurma|korma|veg kurma|veg korma","sabzi"],
+  ["Pumpkin sabzi",70,1.5,10,3,150,"pumpkin|kaddu|kaddu sabzi|bhopla","sabzi"],
+  ["Drumstick sabzi",70,3,8,3,150,"drumstick sabzi|shevga|moringa","sabzi"],
+
+  /* raw veg */
+  ["Cucumber",15,0.7,3.6,0.1,100,"cucumber|kakdi|kheera|cucumbers","salad"],
+  ["Tomato",18,0.9,3.9,0.2,100,"tomato|tomatoes|tamatar","salad"],
+  ["Onion",40,1.1,9,0.1,50,"onion|onions|pyaz|kanda","salad"],
+  ["Carrot",41,0.9,10,0.2,100,"carrot|carrots|gajar","salad"],
+  ["Beetroot",43,1.6,10,0.2,100,"beetroot|beet|beets","salad"],
+  ["Salad",25,1.2,5,0.2,150,"salad|green salad|mixed salad|kachumber|veg salad","salad"],
+  ["Boiled potato",87,1.9,20,0.1,100,"boiled potato|potato|potatoes|boiled aloo|uble aloo|mashed potato","salad"],
+  ["Sweet potato, boiled",90,2,21,0.1,150,"sweet potato|shakarkandi|boiled sweet potato","salad"],
+  ["Corn, boiled",96,3.4,21,1.5,100,"corn|boiled corn|sweet corn|makai|bhutta","salad"],
+  ["Spinach, raw",23,2.9,3.6,0.4,50,"raw spinach|spinach|spinach leaves","salad"],
+  ["Broccoli",35,2.4,7,0.4,100,"broccoli|steamed broccoli","salad"],
+  ["Green peas, boiled",80,5.4,14,0.4,100,"peas|green peas|matar|boiled peas|mutter","salad"],
+  ["Avocado",160,2,9,15,50,"avocado","salad"],
+  ["Lettuce",15,1.4,2.9,0.2,50,"lettuce","salad"],
+
+  /* fruit */
+  ["Banana",89,1.1,23,0.3,100,"banana|bananas|kela|kele","fruit"],
+  ["Apple",52,0.3,14,0.2,150,"apple|apples|seb","fruit"],
+  ["Mango",60,0.8,15,0.4,150,"mango|mangoes|aam|alphonso","fruit"],
+  ["Papaya",43,0.5,11,0.3,150,"papaya|papita","fruit"],
+  ["Orange",47,0.9,12,0.1,130,"orange|oranges|santra|mosambi|sweet lime","fruit"],
+  ["Grapes",69,0.7,18,0.2,100,"grapes|grape|angoor","fruit"],
+  ["Pomegranate",83,1.7,19,1.2,100,"pomegranate|anar|anaar","fruit"],
+  ["Watermelon",30,0.6,7.6,0.2,200,"watermelon|tarbooj","fruit"],
+  ["Muskmelon",34,0.8,8,0.2,200,"muskmelon|melon|kharbuja|cantaloupe","fruit"],
+  ["Guava",68,2.6,14,1,100,"guava|amrood|peru","fruit"],
+  ["Pineapple",50,0.5,13,0.1,100,"pineapple|ananas","fruit"],
+  ["Chikoo",83,0.4,20,1.1,100,"chikoo|chiku|sapota","fruit"],
+  ["Kiwi",61,1.1,15,0.5,70,"kiwi","fruit"],
+  ["Pear",57,0.4,15,0.1,150,"pear|pears","fruit"],
+  ["Strawberries",32,0.7,7.7,0.3,100,"strawberry|strawberries","fruit"],
+  ["Blueberries",57,0.7,14,0.3,50,"blueberries|blueberry|berries","fruit"],
+  ["Dates",280,2.5,75,0.4,20,"dates|date|khajur|khajoor","fruit"],
+  ["Raisins",300,3,79,0.5,20,"raisins|kishmish|raisin","fruit"],
+  ["Coconut, fresh",354,3.3,15,33,30,"coconut|fresh coconut|nariyal|coconut pieces","fruit"],
+  ["Coconut water",19,0.7,3.7,0.2,250,"coconut water|nariyal pani","drink"],
+  ["Dry fruits mix",520,15,35,38,30,"dry fruits|dry fruit|mixed nuts|nuts|trail mix",""],
+
+  /* nuts and seeds */
+  ["Peanuts",585,25,16,50,30,"peanuts|peanut|groundnut|groundnuts|roasted peanuts|moongfali|shengdana|singdana",""],
+  ["Boiled peanuts",320,14,13,24,50,"boiled peanuts|boiled groundnut",""],
+  ["Almonds",580,21,22,50,20,"almonds|almond|badam",""],
+  ["Cashews",555,18,30,44,20,"cashews|cashew|kaju",""],
+  ["Walnuts",655,15,14,65,20,"walnuts|walnut|akhrot",""],
+  ["Pistachios",560,20,28,45,20,"pistachios|pista|pistachio",""],
+  ["Peanut butter",590,25,20,50,15,"peanut butter|pb|pindi butter",""],
+  ["Chia seeds",485,17,42,31,10,"chia|chia seeds",""],
+  ["Flax seeds",535,18,29,42,10,"flax|flax seeds|flaxseed|alsi",""],
+  ["Pumpkin seeds",560,30,11,49,15,"pumpkin seeds",""],
+  ["Sunflower seeds",585,21,20,51,15,"sunflower seeds",""],
+  ["Makhana",350,10,77,0.5,25,"makhana|fox nuts|foxnuts|lotus seeds|phool makhana",""],
+  ["Til",570,18,23,50,10,"til|sesame|sesame seeds",""],
+
+  /* snacks and street food */
+  ["Samosa",260,5,30,14,100,"samosa|samosas",""],
+  ["Pakora",280,7,28,16,80,"pakora|pakoda|bhajiya|bhaji|onion pakora|pakore",""],
+  ["Vada pav",290,6,40,12,120,"vada pav|wada pav|vadapav",""],
+  ["Pav bhaji",180,4,22,8,300,"pav bhaji|pavbhaji",""],
+  ["Bhel puri",150,4,25,4,150,"bhel|bhel puri|bhelpuri|jhalmuri",""],
+  ["Sev puri",230,5,30,10,120,"sev puri|dahi puri|pani puri|golgappa|chaat",""],
+  ["Dhokla",160,6,25,4,100,"dhokla|khaman|khaman dhokla",""],
+  ["Khakhra",400,12,65,10,15,"khakhra|khakra",""],
+  ["Namkeen",520,10,50,32,30,"namkeen|mixture|chivda|chiwda|bhujia|farsan|sev|chakli|murukku|mathri|gathiya|fafda|papdi",""],
+  ["Potato chips",540,6,52,35,30,"chips|potato chips|lays|kurkure|wafers",""],
+  ["Popcorn, plain",380,12,78,4,30,"popcorn|plain popcorn",""],
+  ["Buttered popcorn",500,7,55,28,50,"butter popcorn|buttered popcorn|cinema popcorn",""],
+  ["Biscuits",450,7,75,13,7,"biscuit|biscuits|parle g|marie|good day|cookies|cookie|digestive|oreo|bourbon|hide and seek",""],
+  ["Murmura",385,7,85,1,30,"murmura|puffed rice|kurmura|mamra",""],
+  ["Sandwich",230,7,35,7,150,"sandwich|veg sandwich|bread sandwich|toast sandwich",""],
+  ["Grilled cheese sandwich",300,12,30,15,150,"cheese sandwich|grilled sandwich|grilled cheese",""],
+  ["Pizza",270,11,33,10,120,"pizza|pizza slice",""],
+  ["Burger",250,12,30,9,200,"burger|veg burger|chicken burger",""],
+  ["Veg momos",170,6,28,3.5,150,"momos|momo|veg momos|steamed momos|dumplings",""],
+  ["Chicken momos",200,10,25,6,150,"chicken momos",""],
+  ["French fries",310,3.5,41,15,100,"fries|french fries|finger chips",""],
+  ["Spring roll",240,6,30,10,80,"spring roll|spring rolls",""],
+  ["Frankie",250,9,33,9,200,"frankie|roll|wrap|kathi roll|chicken roll|paneer roll",""],
+  ["Protein bar",380,30,40,10,60,"protein bar|energy bar|granola bar",""],
+
+  /* sweets */
+  ["Gulab jamun",320,4,45,14,40,"gulab jamun|gulab jamoon|jamun",""],
+  ["Besan ladoo",420,8,55,20,30,"ladoo|laddu|laddoo|besan ladoo|motichoor ladoo|rava ladoo",""],
+  ["Jalebi",350,2,60,12,50,"jalebi|imarti",""],
+  ["Kheer",120,3.5,20,3,150,"kheer|payasam|rice kheer|sevai kheer",""],
+  ["Halwa",340,4,50,14,100,"halwa|suji halwa|sooji halwa|gajar halwa|moong dal halwa|sheera",""],
+  ["Rasgulla",190,4,40,1,50,"rasgulla|rasgulle|rasmalai|ras malai",""],
+  ["Barfi",400,6,55,18,30,"barfi|burfi|kaju katli|peda|mithai|sweet",""],
+  ["Milk chocolate",535,8,59,30,25,"chocolate|milk chocolate|dairy milk|kitkat|five star|chocolates",""],
+  ["Dark chocolate",550,7,45,38,20,"dark chocolate",""],
+  ["Ice cream",210,3.5,25,11,100,"ice cream|icecream|kulfi|vanilla ice cream|chocolate ice cream",""],
+  ["Cake",350,5,50,15,80,"cake|pastry|brownie|cupcake|muffin",""],
+  ["Sugar",400,0,100,0,5,"sugar|cheeni|chini|shakkar|white sugar|brown sugar",""],
+  ["Honey",305,0.3,82,0,10,"honey|shahad",""],
+  ["Jaggery",380,0.4,95,0.1,10,"jaggery|gud|gur|gul",""],
+  ["Jam",260,0.3,65,0,15,"jam|mixed fruit jam|nutella|chocolate spread",""],
+
+  /* drinks */
+  ["Tea with milk and sugar",45,1.2,7,1.3,150,"tea|chai|chaay|cha|milk tea|tea with sugar|masala chai|cutting chai","tea"],
+  ["Tea without sugar",25,1.5,2.5,1.3,150,"tea without sugar|sugarless tea|chai without sugar|tea no sugar|sugar free tea","tea"],
+  ["Black tea",1,0,0.2,0,150,"black tea|lemon tea|kadak black tea","tea"],
+  ["Green tea",1,0,0,0,150,"green tea","tea"],
+  ["Coffee with milk and sugar",50,1.5,7,1.5,150,"coffee|milk coffee|filter coffee|coffee with sugar|nescafe|cappuccino|latte","coffee"],
+  ["Coffee without sugar",30,1.6,2.5,1.5,150,"coffee without sugar|sugarless coffee|coffee no sugar","coffee"],
+  ["Black coffee",2,0.1,0,0,150,"black coffee|americano|espresso","coffee"],
+  ["Cold coffee",80,2.5,12,2.5,250,"cold coffee|iced coffee|frappe","coffee"],
+  ["Orange juice",45,0.7,10,0.2,200,"juice|orange juice|fruit juice|mango juice|apple juice|mixed fruit juice|real juice|tropicana","drink"],
+  ["Fresh lime water",20,0.1,5,0,250,"nimbu pani|lime water|lemon water|lemonade|shikanji|nimbu paani","drink"],
+  ["Cola",42,0,10.6,0,300,"cola|coke|pepsi|thums up|sprite|soft drink|cold drink|soda|limca|fanta","drink"],
+  ["Diet cola",0,0,0,0,300,"diet coke|coke zero|diet cola|zero sugar","drink"],
+  ["Energy drink",45,0,11,0,250,"red bull|energy drink|monster","drink"],
+  ["Beer",43,0.5,3.6,0,330,"beer","drink"],
+  ["Wine",85,0.1,2.6,0,150,"wine|red wine|white wine","drink"],
+  ["Whisky",250,0,0,0,30,"whisky|whiskey|rum|vodka|gin|peg","drink"],
+  ["Milkshake",110,3.5,17,3,300,"milkshake|shake|banana shake|mango shake|chocolate shake","drink"],
+  ["Smoothie",90,3,17,1.5,300,"smoothie","drink"],
+  ["Bournvita in milk",90,3.5,13,3,200,"bournvita|horlicks|boost|complan|milo","drink"],
+  ["Water",0,0,0,0,250,"water|pani|paani","drink"]
+];
+
+/* Words the speech engine emits for numbers, and how the parser reads them. */
+/* Your regular packaged foods, per 100 g. Correct any of these by voice: "new food <name> per 100 gram ..." */
+var SEED = [
+  ["Alpino protein oats",388,25,48,10,40,"alpino|alpino oats|protein oats|alpino protein oats|alpine oats|oats",""],
+  ["Amul Shakti milk",72,3.2,4.7,4.5,250,"amul shakti|shakti|shakti milk|amul milk|milk|doodh|dudh",""],
+  ["Nakpro isolate whey",375,83,6,1,30,"nakpro|nakpro whey|isolate|whey|whey protein|protein powder|protein scoop|scoop|protein shake",""],
+  ["Pintola peanut butter",588,26,20,49,20,"pintola|pintola peanut butter|peanut butter|pb",""],
+  ["Jain Dairy paneer",290,18,4,22,100,"jain paneer|jain dairy paneer|jain dairy|paneer|panir|paner|panner",""]
+];
+
+var NUMWORDS = {
+  zero:0, oh:0, one:1, won:1, two:2, to:2, too:2, three:3, four:4, for:4, five:5, six:6, seven:7, eight:8, ate:8, nine:9,
+  ten:10, eleven:11, twelve:12, thirteen:13, fourteen:14, fifteen:15, sixteen:16, seventeen:17, eighteen:18, nineteen:19,
+  twenty:20, thirty:30, forty:40, fourty:40, fifty:50, sixty:60, seventy:70, eighty:80, ninety:90,
+  hundred:100, hundreds:100, thousand:1000,
+  /* Hindi / Gujarati / Marathi numbers people say mid sentence */
+  ek:1, do:2, teen:3, char:4, chaar:4, paanch:5, panch:5, chhe:6, saat:7, aath:8, nau:9, das:10, dus:10,
+  bees:20, tees:30, chalis:40, pachas:50, saath:60, sattar:70, assi:80, nabbe:90, sau:100, hazaar:1000, hazar:1000,
+  half:0.5, aadha:0.5, adha:0.5, quarter:0.25
+};
+var TENS = {20:1,30:1,40:1,50:1,60:1,70:1,80:1,90:1};
+
+/* Units and what they weigh, in grams. Countable units are worked out from the food's serving size. */
+var UNITS = {
+  g:{g:1}, gm:{g:1}, gms:{g:1}, gram:{g:1}, grams:{g:1}, grm:{g:1}, graham:{g:1}, grahams:{g:1}, gramme:{g:1}, grammes:{g:1},
+  ml:{g:1}, mls:{g:1}, millilitre:{g:1}, millilitres:{g:1}, milliliter:{g:1}, milliliters:{g:1}, "ml.":{g:1},
+  kg:{g:1000}, kgs:{g:1000}, kilo:{g:1000}, kilos:{g:1000}, kilogram:{g:1000}, kilograms:{g:1000},
+  l:{g:1000}, litre:{g:1000}, litres:{g:1000}, liter:{g:1000}, liters:{g:1000},
+  tsp:{g:5}, teaspoon:{g:5}, teaspoons:{g:5}, chammach:{g:5},
+  tbsp:{g:15}, tablespoon:{g:15}, tablespoons:{g:15},
+  cup:{g:200}, cups:{g:200}, glass:{g:250}, glasses:{g:250},
+  bowl:{g:150}, bowls:{g:150}, katori:{g:150}, vati:{g:150},
+  scoop:{g:30}, scoops:{g:30},
+  piece:{count:1}, pieces:{count:1}, pcs:{count:1}, pc:{count:1}, nos:{count:1}, no:{count:1},
+  slice:{count:1}, slices:{count:1}
+};
+
+var FILLER = { a:1, an:1, the:1, of:1, some:1, my:1, had:1, ate:0, i:1, please:1, add:1, log:1, about:1, around:1, approximately:1, roughly:1, plus:1, also:1, then:1, "&":1, um:1, uh:1, like:1, just:1, only:1, one:0 };
+
+function norm(s){
+  return String(s||"").toLowerCase()
+    .replace(/[\u2018\u2019']/g,"")
+    .replace(/(\d)\s*(g|gm|gms|ml|kg)\b/g,"$1 $2")
+    .replace(/(\d),(\d)/g,"$1$2")
+    .replace(/\band a (half|quarter)\b/g,"and $1")
+    .replace(/\ba (half|quarter)\b/g,"$1")
+    .replace(/[,;!?/]+/g," , ")
+    .replace(/(\D)\.(\D)/g,"$1 , $2")
+    .replace(/\.(\s|$)/g," , ")
+    .replace(/\s+/g," ").trim();
+}
+
+/* Turn "one hundred and forty" into 140, "one forty" into 140, "two twenty five" into 225. */
+function foldNumbers(tokens){
+  var out=[], i=0;
+  while(i<tokens.length){
+    var t=tokens[i];
+    var isNum = /^\d+(\.\d+)?$/.test(t) || (t in NUMWORDS);
+    if(!isNum){ out.push(t); i++; continue; }
+    var cur=null, j=i, lastWasSmall=false;
+    while(j<tokens.length){
+      var w=tokens[j];
+      if(w==="and" && j+1<tokens.length && (tokens[j+1] in NUMWORDS || /^\d+$/.test(tokens[j+1])) && cur!==null){ j++; continue; }
+      if(w==="a" && j+1<tokens.length && (tokens[j+1]==="half"||tokens[j+1]==="quarter") && cur!==null){ j++; continue; }
+      var v;
+      if(/^\d+(\.\d+)?$/.test(w)) v=parseFloat(w);
+      else if(w in NUMWORDS) v=NUMWORDS[w];
+      else break;
+      if(cur===null){ cur=v; lastWasSmall = v<10 && v>=1 && Number.isInteger(v); j++; continue; }
+      if(v===100||v===1000){ cur = (cur<v && cur>0 ? cur : 1) * v; lastWasSmall=false; j++; continue; }
+      if(v>0 && v<1){ cur += v; lastWasSmall=false; j++; continue; }
+      if(cur>=100 && cur%100===0 && v<100){ cur += v; lastWasSmall=false; j++; continue; }
+      if(v<10 && cur>=20 && cur%10===0 && (cur%100)>=20){ cur += v; lastWasSmall=false; j++; continue; }
+      if(TENS[v]){ if(cur<10){ cur = cur*100 + v; lastWasSmall=false; j++; continue; } break; }
+      if(v>=11 && v<=19){ if(cur<10){ cur = cur*100 + v; lastWasSmall=false; j++; continue; } break; }
+      if(v<10){
+        if(lastWasSmall || (cur>=10 && cur<100 && Number.isInteger(cur))){ cur = cur*10 + v; lastWasSmall = false; j++; continue; }
+      }
+      break;
+    }
+    out.push(String(cur));
+    i=j;
+  }
+  return out;
+}
+
+/* Fuzzy token match: same word, or a close misspelling for longer words. */
+function lev(a,b){
+  if(a===b) return 0;
+  var m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  var prev=[],cur=[],i,j;
+  for(j=0;j<=n;j++) prev[j]=j;
+  for(i=1;i<=m;i++){
+    cur[0]=i;
+    for(j=1;j<=n;j++){
+      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    }
+    prev=cur.slice();
+  }
+  return prev[n];
+}
+function tokEq(a,b){
+  if(a===b) return 1;
+  if(a.length<4||b.length<4) return 0;
+  var d=lev(a,b), L=Math.max(a.length,b.length);
+  if(L>=7 && d<=2) return 0.85;
+  if(d<=1) return 0.9;
+  return 0;
+}
+
+var INDEX=null;
+function buildIndex(extra){
+  INDEX=[];
+  var all = FOODS.slice();
+  (extra||[]).forEach(function(e){ all.push(e); });
+  all.forEach(function(row,rowIdx){
+    var food={ name:row[0], k:row[1], p:row[2], c:row[3], f:row[4], serving:row[5]||100, grp:row[7]||"", idx:rowIdx, learned:!!row[8] };
+    var aliases = String(row[6]||"").split("|").concat([row[0].toLowerCase().replace(/,/g,"")]);
+    aliases.forEach(function(a){
+      a=a.trim(); if(!a) return;
+      INDEX.push({ toks:a.split(/\s+/), food:food, exact:a });
+    });
+  });
+  return INDEX;
+}
+
+/* Score a food phrase against every alias, return best food and match quality 0..1. */
+function matchFood(words){
+  if(!INDEX) buildIndex();
+  var toks=words.filter(function(w){ return !(w in FILLER && FILLER[w]===1); });
+  if(!toks.length) return null;
+  var best=null, bestScore=0, phrase=toks.join(" ");
+  for(var i=0;i<INDEX.length;i++){
+    var al=INDEX[i], score;
+    if(al.exact===phrase){ score=1; }
+    else{
+      var hit=0, used={};
+      for(var a=0;a<al.toks.length;a++){
+        var bestTok=0, bestJ=-1;
+        for(var b=0;b<toks.length;b++){
+          if(used[b]) continue;
+          var q=tokEq(al.toks[a],toks[b]);
+          if(q>bestTok){ bestTok=q; bestJ=b; }
+        }
+        if(bestJ>=0){ used[bestJ]=1; hit+=bestTok; }
+      }
+      if(!hit) continue;
+      /* every alias word should be present; extra spoken words cost a little */
+      var cover = hit/al.toks.length;
+      var extra = toks.length-al.toks.length;
+      score = cover - (extra>0 ? extra*0.25 : 0);
+      if(cover<0.99) score -= 0.05;
+    }
+    if(al.food.learned) score += 0.06;   /* your own foods beat the generic ones */
+    if(score>bestScore){ bestScore=score; best=al.food; }
+  }
+  if(bestScore<0.7) return null;
+  return { food:best, score:bestScore };
+}
+
+/* Main parser: spoken or typed sentence -> list of items.
+   Each item: { text, words, grams, unit, count, assumed, food (or null), score } */
+function parseText(raw){
+  var t=norm(raw);
+  if(!t) return [];
+  var toks=foldNumbers(t.split(" "));
+  var items=[], cur=null;
+  function flush(){ if(cur && (cur.words.length || cur.qty!==null)) items.push(cur); cur=null; }
+  function fresh(){ return { words:[], qty:null, unit:null }; }
+  for(var i=0;i<toks.length;i++){
+    var w=toks[i];
+    if(w==="," || w==="and" || w==="plus" || w==="with" || w==="then" || w==="also"){ if(cur && cur.words.length) flush(); continue; }
+    if(/^\d+(\.\d+)?$/.test(w)){
+      var q=parseFloat(w), unit=null;
+      if(i+1<toks.length && (toks[i+1] in UNITS)){ unit=toks[i+1]; i++; }
+      else if(i+1<toks.length && toks[i+1]==="of"){ /* "200 of rice" */ }
+      if(cur && cur.qty!==null && cur.words.length){ flush(); }
+      if(!cur) cur=fresh();
+      if(cur.qty!==null && !cur.words.length){ cur.qty=q; cur.unit=unit; continue; }
+      cur.qty=q; cur.unit=unit;
+      if(cur.words.length){ flush(); }
+      continue;
+    }
+    if(w in UNITS && cur && cur.qty!==null && !cur.unit){ cur.unit=w; continue; }
+    if(!cur) cur=fresh();
+    cur.words.push(w);
+  }
+  flush();
+
+  /* "paneer 100 grams" order: a qty-only item right after a words-only item belong together */
+  var merged=[];
+  for(var k=0;k<items.length;k++){
+    var it=items[k];
+    if(it.qty!==null && !it.words.length && merged.length && merged[merged.length-1].qty===null){
+      merged[merged.length-1].qty=it.qty; merged[merged.length-1].unit=it.unit; continue;
+    }
+    if(it.qty!==null && !it.words.length && k+1<items.length && items[k+1].qty===null){
+      items[k+1].qty=it.qty; items[k+1].unit=it.unit; continue;
+    }
+    merged.push(it);
+  }
+
+  return merged.filter(function(it){ return it.words.length; }).map(function(it){
+    var m=matchFood(it.words);
+    var food=m?m.food:null;
+    var grams=null, assumed=false, count=null;
+    var u = it.unit ? UNITS[it.unit] : null;
+    if(it.qty!==null){
+      if(u && u.g){ grams = it.qty*u.g; }
+      else if(u && u.count){ count=it.qty; }
+      else if(it.qty<=10){ count=it.qty; }
+      else grams=it.qty;
+    }
+    if(count!==null){
+      grams = food ? count*food.serving : null;
+      if(!food) assumed=true;
+    }
+    if(grams===null){ assumed=true; grams = food ? food.serving : 100; }
+    return {
+      text: it.words.join(" "), words: it.words,
+      grams: Math.round(grams), count: count, unit: it.unit,
+      assumed: assumed, food: food, score: m?m.score:0
+    };
+  });
+}
+
+/* How confident are we in a whole transcript? Used to pick between speech alternatives. */
+/* "new food alpino oats per 100 gram 25 protein 388 calories 48 carbs 10 fat"
+   Returns {name,k,p,c,f,serving} or null. Missing carbs and fat are estimated from the calories. */
+function parseNewFood(raw){
+  var t=norm(raw);
+  var m=t.match(/^(?:new food|add food|new item|naya food|save food)\s+(.+)$/);
+  if(!m) return null;
+  var toks=foldNumbers(m[1].split(" ")), name=[], i=0;
+  while(i<toks.length && toks[i]!=="per" && !/^\d+(\.\d+)?$/.test(toks[i])) name.push(toks[i++]);
+  if(!name.length) return null;
+  var per=100, vals={}, mode=null;
+  var NUT={p:1,k:1,c:1,f:1};
+  var KEY={ protein:"p", proteins:"p", calorie:"k", calories:"k", kcal:"k", cal:"k", energy:"k", carb:"c", carbs:"c", carbohydrate:"c", carbohydrates:"c", fat:"f", fats:"f", gram:"per", grams:"per", gm:"per", g:"per", ml:"per", serving:"per", scoop:"per" };
+  for(;i<toks.length;i++){
+    if(!/^\d+(\.\d+)?$/.test(toks[i])) continue;
+    var v=parseFloat(toks[i]), k=null;
+    var before=i-1>=0?KEY[toks[i-1]]:null, after=i+1<toks.length?KEY[toks[i+1]]:null;
+    if(i-1>=0&&toks[i-1]==="per"){ per=v; continue; }
+    if(after==="per"){ per=v; continue; }
+    if(!mode && (NUT[before]||NUT[after])) mode = NUT[before] ? "before" : "after";
+    if(mode==="before" && NUT[before]) k=before;
+    else if(mode==="after" && NUT[after]) k=after;
+    else k = NUT[after] ? after : (NUT[before] ? before : null);
+    if(k) vals[k]=v;
+  }
+  if(!vals.p && !vals.k) return null;
+  var f=100/per;
+  var p=(vals.p||0)*f, k=(vals.k||0)*f, c=vals.c!=null?vals.c*f:null, fa=vals.f!=null?vals.f*f:null;
+  if(!k) k = p*4 + (c||0)*4 + (fa||0)*9;
+  if(c===null && fa===null){ var rest=Math.max(0,k-p*4); c=rest*0.55/4; fa=rest*0.45/9; }
+  else if(c===null){ c=Math.max(0,(k-p*4-fa*9)/4); }
+  else if(fa===null){ fa=Math.max(0,(k-p*4-c*4)/9); }
+  var nm=name.join(" ").replace(/\b\w/g,function(ch){ return ch.toUpperCase(); });
+  return { name:nm, k:Math.round(k), p:Math.round(p*10)/10, c:Math.round(c*10)/10, f:Math.round(fa*10)/10, serving:Math.round(per) };
+}
+
+function transcriptScore(text){
+  var items=parseText(text), s=0;
+  items.forEach(function(it){ s += it.food ? 1 + it.score : 0.2; if(!it.assumed) s += 0.5; });
+  return s;
+}
+
+if(typeof module!=="undefined") module.exports={FOODS:FOODS,SEED:SEED,parseNewFood:parseNewFood,parseText:parseText,matchFood:matchFood,foldNumbers:foldNumbers,norm:norm,buildIndex:buildIndex,transcriptScore:transcriptScore};
+
+(function(){
+  "use strict";
+  var $=function(id){ return document.getElementById(id); };
+  var MEALS=["Breakfast","Lunch","Snack","Dinner"];
+
+  /* ---------- storage ---------- */
+  var mem={};
+  var store={
+    get:function(k){ try{ var v=localStorage.getItem(k); return v===null?(k in mem?mem[k]:null):v; }catch(e){ return k in mem?mem[k]:null; } },
+    set:function(k,v){ mem[k]=v; try{ localStorage.setItem(k,v); }catch(e){} },
+    del:function(k){ delete mem[k]; try{ localStorage.removeItem(k); }catch(e){} }
+  };
+  function load(k,d){ try{ var v=JSON.parse(store.get(k)||"null"); return v===null?d:v; }catch(e){ return d; } }
+  var cfg=Object.assign({ key:"", model:"", groq:"", engine:"whisper", goal:2900, prot:150, lang:"en-IN", sheet:"", seeded:false }, load("weigh.cfg",{}));
+  var days=load("weigh.days",{});
+  var cache=load("weigh.cache",{});
+  var learned=load("weigh.learned",[]);
+  var pendingDel=load("weigh.del",[]);
+  if(!cfg.seeded){
+    SEED.forEach(function(r){ if(!learned.some(function(x){ return x[0]===r[0]; })) learned.push(r.concat([true])); });
+    cfg.seeded=true; store.set("weigh.learned",JSON.stringify(learned)); store.set("weigh.cfg",JSON.stringify(cfg));
+  }
+  function saveCfg(){ store.set("weigh.cfg",JSON.stringify(cfg)); }
+  function saveDays(){ store.set("weigh.days",JSON.stringify(days)); }
+  function saveCache(){ store.set("weigh.cache",JSON.stringify(cache)); }
+  function saveLearned(){ store.set("weigh.learned",JSON.stringify(learned)); buildIndex(learned); }
+  function saveDel(){ store.set("weigh.del",JSON.stringify(pendingDel)); }
+  buildIndex(learned);
+
+  /* ---------- helpers ---------- */
+  function dkey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+  var TODAY=dkey(new Date()), viewing=TODAY;
+  function shift(k,n){ var p=k.split("-"), d=new Date(+p[0],+p[1]-1,+p[2]); d.setDate(d.getDate()+n); return dkey(d); }
+  function pretty(k){ var p=k.split("-"), d=new Date(+p[0],+p[1]-1,+p[2]); var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], w=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; return { day:w[d.getDay()], date:d.getDate()+" "+m[d.getMonth()], initial:w[d.getDay()].slice(0,1) }; }
+  function mealNow(){ var h=new Date().getHours(); return h<11?"Breakfast":h<16?"Lunch":h<19?"Snack":"Dinner"; }
+  function stampNow(){ var n=new Date(); return String(n.getHours()).padStart(2,"0")+":"+String(n.getMinutes()).padStart(2,"0"); }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function uid(){ return "x"+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+  function calc(it){ var g=+it.g||0; return { kcal:Math.round((+it.k100||0)*g/100), p:Math.round((+it.p100||0)*g/100), c:Math.round((+it.c100||0)*g/100), f:Math.round((+it.f100||0)*g/100) }; }
+  function totals(list){ var s={kcal:0,p:0,c:0,f:0}; list.forEach(function(it){ var v=calc(it); s.kcal+=v.kcal; s.p+=v.p; s.c+=v.c; s.f+=v.f; }); return s; }
+
+  /* ---------- toast with undo ---------- */
+  var toastTimer=null, toastUndo=null, toastAfter=null;
+  function toast(msg,undo,after){
+    if(toastAfter){ var a=toastAfter; toastAfter=null; a(); }
+    $("toastTxt").textContent=msg; $("toastBtn").style.display=undo?"":"none";
+    toastUndo=undo; toastAfter=after||null;
+    $("toast").classList.add("on"); clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){ $("toast").classList.remove("on"); toastUndo=null; if(toastAfter){ var b=toastAfter; toastAfter=null; b(); } }, undo?6000:2200);
+  }
+  $("toastBtn").addEventListener("click",function(){ if(toastUndo) toastUndo(); toastUndo=null; toastAfter=null; clearTimeout(toastTimer); $("toast").classList.remove("on"); });
+
+  /* ---------- saving and deleting ---------- */
+  function addEntries(items, meal){
+    var stamp=stampNow(); days[viewing]=days[viewing]||[];
+    var ids=[];
+    items.forEach(function(it){
+      var e={ id:uid(), t:stamp, meal:meal||mealNow(), name:it.name, g:Math.round(it.g), k100:it.k100, p100:it.p100, c100:it.c100, f100:it.f100, synced:false };
+      days[viewing].push(e); ids.push(e.id);
+    });
+    saveDays(); render();
+    var s=totals(items);
+    var label=items.length===1 ? items[0].g+" g "+items[0].name : items.length+" items";
+    toast("Saved "+label+", "+s.kcal+" kcal, "+s.p+" g protein", function(){
+      days[viewing]=(days[viewing]||[]).filter(function(e){ return ids.indexOf(e.id)<0; });
+      if(!days[viewing].length) delete days[viewing];
+      saveDays(); render();
+    }, function(){ flushSync(); });
+  }
+  function deleteEntry(id){
+    var list=days[viewing]||[], idx=-1;
+    for(var i=0;i<list.length;i++) if(list[i].id===id){ idx=i; break; }
+    if(idx<0) return;
+    var gone=list.splice(idx,1)[0]; if(!list.length) delete days[viewing];
+    saveDays(); render();
+    toast("Deleted "+gone.g+" g "+gone.name, function(){
+      days[viewing]=days[viewing]||[]; days[viewing].splice(Math.min(idx,days[viewing].length),0,gone); saveDays(); render();
+    }, function(){ pendingDel.push(gone.id); saveDel(); flushSync(); });
+  }
+  function deleteLast(){
+    var list=(days[TODAY]||[]); if(!list.length){ toast("Nothing logged today to remove."); return; }
+    var last=list.reduce(function(a,b){ return a.id>b.id?a:b; });
+    viewing=TODAY; deleteEntry(last.id);
+  }
+
+  /* ---------- the one function everything funnels into ---------- */
+  function handle(text, fromVoice){
+    text=String(text||"").trim(); if(!text) return;
+    var n=norm(text);
+    if(/^(undo|delete last|remove last|cancel that|galat|wrong)( one| item)?$/.test(n)){ deleteLast(); return; }
+    if(/^(stop|done|bas|finish|khatam)( listening)?$/.test(n)){ if(fromVoice) stopMic(); return; }
+    var nf=parseNewFood(text);
+    if(nf){
+      learned=learned.filter(function(r){ return r[0].toLowerCase()!==nf.name.toLowerCase(); });
+      learned.push([nf.name,nf.k,nf.p,nf.c,nf.f,nf.serving,nf.name.toLowerCase(),"",true]);
+      saveLearned(); toast("Saved "+nf.name+" to your foods: "+nf.k+" kcal, "+nf.p+" g protein per 100 g");
+      return;
+    }
+    var parsed=parseText(text);
+    if(!parsed.length){ if(!fromVoice) toast("Say the food and the grams, like paneer 100."); return; }
+    var known=[], unknown=[];
+    parsed.forEach(function(p){
+      if(p.food) known.push({ name:p.food.name, g:p.grams, k100:p.food.k, p100:p.food.p, c100:p.food.c, f100:p.food.f, assumed:p.assumed });
+      else unknown.push(p);
+    });
+    if(known.length) addEntries(known);
+    if(unknown.length) unknown.forEach(function(p){ askCard(p); });
+  }
+
+  /* ---------- unknown food card ---------- */
+  var asks=[];
+  function askCard(p){
+    var key=norm(p.text);
+    var card={ id:uid(), text:p.text, g:p.grams, count:p.count, assumed:p.assumed, options:cache[key]||null, err:null };
+    asks.push(card); drawAsks();
+    if(card.options) return;
+    askAI([p.text]).then(function(res){
+      var opts=res[key]||[];
+      if(!opts.length){ card.err="Could not identify it."; }
+      else { cache[key]=opts; saveCache(); card.options=opts; }
+      drawAsks();
+    }).catch(function(e){ card.err=e.message; drawAsks(); });
+  }
+  function drawAsks(){
+    var box=$("asks"); box.innerHTML="";
+    asks.forEach(function(c){
+      var d=document.createElement("div"); d.className="ask";
+      var html='<div class="t"><span>Did not recognise "'+esc(c.text)+'"</span><button aria-label="Dismiss">&times;</button></div><div class="body">';
+      if(c.options){
+        html+='Pick the closest, or type <b>new food '+esc(c.text)+' per 100 gram [protein] [calories]</b> from the label.';
+        html+='</div><div style="margin-top:10px"><input class="g" type="number" inputmode="decimal" value="'+c.g+'" aria-label="Grams"><span style="font-size:13px;color:#78350F">grams</span></div>';
+        html+='<div class="chips">'+c.options.map(function(o,i){ return '<button class="chip" data-i="'+i+'">'+esc(o.name)+'<small>'+Math.round(o.k)+' kcal, '+Math.round(o.p)+' P</small></button>'; }).join("")+'</div>';
+      } else if(c.err){
+        html+=esc(c.err)+' Type <b>new food '+esc(c.text)+' per 100 gram [protein] [calories]</b> from the label, or say it differently.</div>';
+      } else {
+        html+='<span class="spin"></span>Asking the AI. You can keep logging.</div>';
+      }
+      d.innerHTML=html;
+      d.querySelector(".t button").addEventListener("click",function(){ asks=asks.filter(function(x){ return x.id!==c.id; }); drawAsks(); });
+      d.querySelectorAll(".chip").forEach(function(ch){
+        ch.addEventListener("click",function(){
+          var o=c.options[+ch.getAttribute("data-i")];
+          var g=+d.querySelector(".g").value||0;
+          if(c.count) g=Math.round(c.count*o.serving); else if(c.assumed && g===c.g) g=o.serving;
+          addEntries([{ name:o.name, g:g, k100:o.k, p100:o.p, c100:o.c, f100:o.f }]);
+          if(!learned.some(function(r){ return r[0].toLowerCase()===o.name.toLowerCase(); })){ learned.push([o.name,o.k,o.p,o.c,o.f,o.serving,norm(c.text),"",true]); saveLearned(); }
+          asks=asks.filter(function(x){ return x.id!==c.id; }); drawAsks();
+        });
+      });
+      box.appendChild(d);
+    });
+  }
+
+  /* ---------- render ---------- */
+  function streak(){
+    var n=0, k=TODAY;
+    if(!(days[k]||[]).length) k=shift(k,-1);
+    while((days[k]||[]).length){ n++; k=shift(k,-1); }
+    return n;
+  }
+  function render(){
+    var list=(days[viewing]||[]).slice().sort(function(a,b){ return a.t<b.t?-1:1; });
+    var s=totals(list), goal=+cfg.goal||2900, pg=+cfg.prot||150, pr=pretty(viewing);
+    $("dLabel").textContent=viewing===TODAY?"Today":pr.day; $("dSub").textContent=pr.date; $("nextDay").disabled=viewing>=TODAY;
+    var st=streak(); $("streak").style.display=st>=2?"":"none"; $("streak").textContent=st+" days in a row";
+    $("vP").textContent=s.p; $("protGoal").textContent=pg; $("bP").style.width=Math.min(100,s.p/pg*100)+"%";
+    $("kcal").textContent=s.kcal; $("goalTxt").textContent=goal;
+    var left=goal-s.kcal; $("leftTag").textContent=left>=0?left+" left":(-left)+" over"; $("leftTag").className="r"+(left<0?" over":"");
+    $("bK").style.width=Math.min(100,s.kcal/goal*100)+"%"; $("bK").className=s.kcal>goal?"over":"";
+    $("cf").textContent=s.c+" g carbs, "+s.f+" g fat";
+    renderQuick();
+    var log=$("log"); log.innerHTML="";
+    if(!list.length){ var e=document.createElement("div"); e.className="empty"; e.innerHTML="<b>Nothing logged yet</b>Tap anywhere, then say the food and the grams."; log.appendChild(e); }
+    else MEALS.forEach(function(m){
+      var group=list.filter(function(x){ return (x.meal||"Snack")===m; }); if(!group.length) return;
+      var t=totals(group), box=document.createElement("div"); box.className="meal";
+      box.innerHTML='<div class="mh"><h2>'+m+'</h2><span>'+t.p+' g protein, '+t.kcal+' kcal</span></div>';
+      group.forEach(function(it){
+        var v=calc(it), row=document.createElement("div"); row.className="entry";
+        row.innerHTML='<button class="nm"><b>'+esc(it.name)+'</b><span>'+it.g+' g at '+it.t+'</span></button>'+
+          '<div class="p"><b>'+v.p+'</b><span>g protein</span></div><div class="k">'+v.kcal+' kcal</div>'+
+          '<button class="del" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>';
+        row.querySelector(".nm").addEventListener("click",function(){ openEdit(it.id); });
+        row.querySelector(".del").addEventListener("click",function(){ deleteEntry(it.id); });
+        box.appendChild(row);
+      });
+      log.appendChild(box);
+    });
+    renderWeek(pg);
+  }
+  function renderWeek(pg){
+    var w=$("week"); w.innerHTML=""; var ks=[], sum=0, n=0, maxV=pg;
+    for(var i=6;i>=0;i--){ var k=shift(TODAY,-i); ks.push(k); var v=totals(days[k]||[]).p; maxV=Math.max(maxV,v); if(v){ sum+=v; n++; } }
+    $("avgTxt").textContent=n?"average "+Math.round(sum/n)+" g":"";
+    ks.forEach(function(k){
+      var v=totals(days[k]||[]).p, b=document.createElement("button"); if(k===viewing) b.className="sel";
+      var h=Math.max(4,v/maxV*50), gl=pg/maxV*50;
+      b.innerHTML='<div class="b'+(v>=pg?" hit":(v>0?" part":""))+'" style="height:'+h+'px"></div><div class="l">'+pretty(k).initial+'</div>';
+      b.addEventListener("click",function(){ viewing=k; render(); });
+      w.appendChild(b);
+    });
+  }
+  function recents(){
+    var seen={}, out=[];
+    Object.keys(days).sort().reverse().forEach(function(d){ (days[d]||[]).slice().sort(function(a,b){ return a.t<b.t?1:-1; }).forEach(function(e){ var k=e.name.toLowerCase(); if(!seen[k]){ seen[k]={ name:e.name, g:e.g, k100:e.k100, p100:e.p100, c100:e.c100, f100:e.f100, n:0 }; out.push(seen[k]); } seen[k].n++; }); });
+    return out.sort(function(a,b){ return b.n-a.n; }).slice(0,12);
+  }
+  function renderQuick(){
+    var r=recents(); $("quick").style.display=r.length?"":"none"; var c=$("quickChips"); c.innerHTML="";
+    r.forEach(function(f){ var b=document.createElement("button"); b.className="chip"; b.innerHTML=esc(f.name)+'<small>'+f.g+' g</small>'; b.addEventListener("click",function(ev){ ev.stopPropagation(); addEntries([f]); }); c.appendChild(b); });
+  }
+  $("prevDay").addEventListener("click",function(e){ e.stopPropagation(); viewing=shift(viewing,-1); render(); });
+  $("nextDay").addEventListener("click",function(e){ e.stopPropagation(); if(viewing<TODAY){ viewing=shift(viewing,1); render(); } });
+
+  /* ---------- speech: two engines, one session ---------- */
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  var secure=location.protocol==="https:"||/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  var session=false;
+  function setStatus(mode,txt){ $("status").className="status "+mode; $("statusTxt").textContent=txt; $("micBtn").classList.toggle("live",mode==="live"); }
+  function engine(){ return (cfg.engine==="chrome"||!cfg.groq) ? "chrome" : "whisper"; }
+  function micProblem(){
+    if(!secure) return "You opened this as a file. The mic only works on the https link. Typing still works.";
+    if(engine()==="chrome" && !SR) return "This browser cannot listen. Use Chrome on Android, or add a Groq key in settings. Typing works.";
+    if(engine()==="whisper" && !(navigator.mediaDevices&&window.MediaRecorder)) return "This browser cannot record audio. Typing works.";
+    return null;
+  }
+  function startMic(){
+    var p=micProblem(); if(p){ $("micWarn").innerHTML='<div class="banner red">'+p+'</div>'; return; }
+    if(session) return;
+    session=true;
+    if(engine()==="whisper") whisperStart(); else chromeSpin();
+  }
+  function stopMic(){
+    session=false;
+    chromeStop(); whisperStop();
+    setStatus("off","Tap anywhere to start listening"); $("heardline").textContent="";
+  }
+  function micDenied(){ session=false; setStatus("off","Mic blocked. Tap the lock icon by the address, allow Microphone, reload."); }
+
+  /* ----- engine A: Whisper on Groq ----- */
+  var W={ stream:null, ctx:null, an:null, rec:null, timer:null, chunks:[], speaking:false, lastVoice:0, firstVoice:0, base:0.008, samples:0, segStart:0, inflight:0 };
+  var VOCAB="paneer, rotli, roti, dal bhat, shaak, moong, chana, chawal, dahi, curd, milk, whey, Nakpro, Alpino oats, Pintola peanut butter, Amul Shakti, Jain Dairy, gram, grams, ml, katori, scoop, undo, delete last, new food, per, protein, calories";
+  function whisperStart(){
+    navigator.mediaDevices.getUserMedia({ audio:{ echoCancellation:true, noiseSuppression:true, autoGainControl:true } }).then(function(stream){
+      if(!session){ stream.getTracks().forEach(function(t){ t.stop(); }); return; }
+      W.stream=stream;
+      W.ctx=new (window.AudioContext||window.webkitAudioContext)();
+      var src=W.ctx.createMediaStreamSource(stream); W.an=W.ctx.createAnalyser(); W.an.fftSize=1024; src.connect(W.an);
+      W.base=0.008; W.samples=0; W.speaking=false;
+      newSegment();
+      W.timer=setInterval(tick,60);
+      setStatus("live","Listening with Whisper. Say the food and the grams.");
+    }).catch(function(e){
+      if(/denied|permission|notallowed/i.test(String(e.name+e.message))) micDenied();
+      else { setStatus("off","Could not open the mic. Tap to try again."); session=false; }
+    });
+  }
+  function newSegment(){
+    if(!W.stream||!session) return;
+    var mime=MediaRecorder.isTypeSupported("audio/webm;codecs=opus")?"audio/webm;codecs=opus":(MediaRecorder.isTypeSupported("audio/mp4")?"audio/mp4":"");
+    try{ W.rec=mime?new MediaRecorder(W.stream,{mimeType:mime,audioBitsPerSecond:32000}):new MediaRecorder(W.stream); }catch(e){ W.rec=new MediaRecorder(W.stream); }
+    W.chunks=[]; W.segStart=Date.now(); W.speaking=false; W.firstVoice=0;
+    W.rec.ondataavailable=function(ev){ if(ev.data&&ev.data.size) W.chunks.push(ev.data); };
+    W.rec.onstop=function(){
+      var had=W.firstVoice>0, dur=Date.now()-W.segStart, blob=new Blob(W.chunks,{type:W.rec.mimeType||"audio/webm"});
+      if(session) newSegment();
+      if(had && dur>500 && blob.size>2000) transcribe(blob);
+    };
+    W.rec.start();
+  }
+  function tick(){
+    if(!W.an) return;
+    var buf=new Uint8Array(W.an.fftSize); W.an.getByteTimeDomainData(buf);
+    var sum=0; for(var i=0;i<buf.length;i++){ var v=(buf[i]-128)/128; sum+=v*v; }
+    var rms=Math.sqrt(sum/buf.length), now=Date.now();
+    if(W.samples<12){ W.base=(W.base*W.samples+rms)/(W.samples+1); W.samples++; return; }   /* first ~0.7 s learns the room noise */
+    var thr=Math.max(0.02, W.base*3);
+    if(rms>thr){
+      W.lastVoice=now; if(!W.firstVoice) W.firstVoice=now;
+      if(!W.speaking){ W.speaking=true; $("heardline").textContent="..."; }
+    } else if(!W.speaking){ W.base=W.base*0.98+rms*0.02; }
+    var segAge=now-W.segStart;
+    if(W.speaking && now-W.lastVoice>750 && W.rec&&W.rec.state==="recording"){ W.rec.stop(); return; }   /* pause after speech: send it */
+    if(W.speaking && now-W.firstVoice>12000 && W.rec&&W.rec.state==="recording"){ W.rec.stop(); return; }  /* very long sentence: send what we have */
+    if(!W.speaking && segAge>20000 && W.rec&&W.rec.state==="recording"){ W.rec.stop(); }                    /* silence: recycle so the file never grows */
+  }
+  function transcribe(blob){
+    W.inflight++; $("heardline").textContent="Transcribing";
+    var fd=new FormData();
+    fd.append("file", blob, blob.type.indexOf("mp4")>=0?"clip.m4a":"clip.webm");
+    fd.append("model","whisper-large-v3-turbo");
+    fd.append("language","en");
+    fd.append("temperature","0");
+    fd.append("response_format","json");
+    fd.append("prompt", VOCAB+", "+learned.map(function(r){ return r[0]; }).slice(-20).join(", "));
+    fetch("https://api.groq.com/openai/v1/audio/transcriptions",{ method:"POST", headers:{ Authorization:"Bearer "+cfg.groq }, body:fd })
+    .then(function(r){ return r.text().then(function(t){ var j=null; try{ j=JSON.parse(t); }catch(e){} if(!r.ok){ var m=(j&&j.error&&j.error.message)||("Groq error "+r.status); if(r.status===401) m="Groq key rejected. Check it in settings."; if(r.status===429) m="Groq free limit hit for now. Switching to Chrome hearing."; throw new Error(m); } return j; }); })
+    .then(function(j){
+      W.inflight--; var text=String((j&&j.text)||"").trim();
+      $("heardline").textContent=text;
+      if(!text || /^(thank you|thanks|you|bye|\.+)\.?$/i.test(text)) return;   /* whisper's usual noise words */
+      handle(text,true);
+    })
+    .catch(function(e){
+      W.inflight--; $("heardline").textContent="";
+      toast(e.message);
+      if(/429|Failed to fetch|NetworkError|Load failed|rejected/i.test(e.message) && SR){ stopMic(); cfg.engine="chrome"; session=true; chromeSpin(); }
+    });
+  }
+  function whisperStop(){
+    clearInterval(W.timer); W.timer=null;
+    if(W.rec){ try{ W.rec.onstop=null; if(W.rec.state!=="inactive") W.rec.stop(); }catch(e){} W.rec=null; }
+    if(W.stream){ W.stream.getTracks().forEach(function(t){ t.stop(); }); W.stream=null; }
+    if(W.ctx){ try{ W.ctx.close(); }catch(e){} W.ctx=null; W.an=null; }
+  }
+
+  /* ----- engine B: Chrome built in ----- */
+  var rec=null, restartTimer=null, seenFinal=0;
+  function chromeSpin(){
+    if(!session) return;
+    try{ if(rec){ rec.onend=null; rec.abort(); } }catch(e){}
+    rec=new SR(); rec.lang=cfg.lang||"en-IN"; rec.continuous=true; rec.interimResults=true; rec.maxAlternatives=3; seenFinal=0;
+    rec.onstart=function(){ setStatus("live","Listening. Say the food and the grams."); };
+    rec.onresult=function(ev){
+      var interim="";
+      for(var i=seenFinal;i<ev.results.length;i++){
+        var r=ev.results[i];
+        if(r.isFinal){
+          var best=r[0].transcript, bs=-1;
+          for(var a=0;a<r.length;a++){ var sc=transcriptScore(r[a].transcript); if(sc>bs){ bs=sc; best=r[a].transcript; } }
+          seenFinal=i+1; $("heardline").textContent=best.trim(); handle(best.trim(),true);
+        } else interim+=r[0].transcript;
+      }
+      if(interim) $("heardline").textContent=interim;
+    };
+    rec.onerror=function(ev){
+      if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){ micDenied(); return; }
+      if(ev.error==="network") setStatus("off","Speech needs internet. Retrying.");
+    };
+    rec.onend=function(){ rec=null; if(!session) return; clearTimeout(restartTimer); restartTimer=setTimeout(chromeSpin,300); };
+    try{ rec.start(); }catch(e){ clearTimeout(restartTimer); restartTimer=setTimeout(chromeSpin,800); }
+  }
+  function chromeStop(){ clearTimeout(restartTimer); if(rec){ try{ rec.onend=null; rec.stop(); }catch(e){} rec=null; } }
+
+  document.addEventListener("visibilitychange",function(){ if(document.hidden) stopMic(); });
+  $("micBtn").addEventListener("click",function(e){ e.stopPropagation(); if(session) stopMic(); else startMic(); });
+  $("main").addEventListener("click",function(e){ if(e.target.closest("button,input,select,a,.ask")) return; if(!session) startMic(); });
+  $("status").addEventListener("click",function(e){ if(e.target.closest("button")) return; if(!session) startMic(); });
+
+  /* ---------- typing ---------- */
+  $("typeIn").addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); var v=$("typeIn").value; $("typeIn").value=""; handle(v,false); } });
+
+  /* ---------- google ai ---------- */
+  var BASE="https://generativelanguage.googleapis.com/v1beta";
+  var CANDIDATES=["gemini-2.5-flash-lite","gemini-flash-lite-latest","gemini-2.0-flash-lite","gemini-2.5-flash","gemini-flash-latest","gemini-2.0-flash"];
+  var PROMPT=["You are a nutrition lookup for someone in India who weighs food on a kitchen scale.",
+    "You get a list of short food phrases. For EACH phrase return one to three likely matches, most likely first,",
+    "each with nutrition PER 100 GRAMS from standard reference data (IFCT or USDA), and a typical single serving in grams.",
+    "When a phrase is ambiguous, the options should be distinct real world versions. If a brand is named, use that brand's label values.",
+    "Assume Indian home cooking otherwise, cooked values when normally eaten cooked. Treat ml as grams. Names short and plain.",
+    "Return ONLY valid JSON, no markdown, exactly:",
+    '{"items":[{"query":"<phrase exactly as given>","options":[{"name":"","kcal_100g":0,"protein_100g":0,"carbs_100g":0,"fat_100g":0,"serving_g":0}]}]}',
+    "If a phrase is not food, return it with an empty options array."].join(" ");
+  function readJson(r){ return r.text().then(function(t){ var j=null; try{ j=JSON.parse(t); }catch(e){} if(!r.ok){ var m=(j&&j.error&&(j.error.message||j.error))||("Request failed, status "+r.status); if(r.status===400&&/API key/i.test(String(m))) m="Key not accepted. Check it in settings."; if(r.status===401||r.status===403) m="Key rejected. Check it in settings."; if(r.status===404) m="modelmissing"; if(r.status===429) m="Google's free limit is busy. Try again in a minute."; throw new Error(typeof m==="string"?m:"Request failed"); } if(!j) throw new Error("Unreadable reply from Google."); return j; }); }
+  function testKey(k){
+    return fetch(BASE+"/models?key="+encodeURIComponent(k)).then(readJson).then(function(j){
+      var names=(j.models||[]).filter(function(m){ return (m.supportedGenerationMethods||[]).indexOf("generateContent")>=0; }).map(function(m){ return m.name.replace(/^models\//,""); });
+      if(!names.length) throw new Error("This key has no usable models on it.");
+      for(var i=0;i<CANDIDATES.length;i++) if(names.indexOf(CANDIDATES[i])>=0) return CANDIDATES[i];
+      return names.filter(function(n){ return /flash.*lite/i.test(n); })[0]||names.filter(function(n){ return /flash/i.test(n); })[0]||names[0];
+    });
+  }
+  function askAI(phrases){
+    if(!cfg.key) return Promise.reject(new Error("No Google key yet. Add one in settings, or"));
+    var model=cfg.model||CANDIDATES[0], gen={ temperature:0, responseMimeType:"application/json", maxOutputTokens:1200 };
+    if(/2\.5/.test(model)) gen.thinkingConfig={ thinkingBudget:0 };
+    return fetch(BASE+"/models/"+encodeURIComponent(model)+":generateContent?key="+encodeURIComponent(cfg.key),{ method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ systemInstruction:{parts:[{text:PROMPT}]}, contents:[{role:"user",parts:[{text:JSON.stringify(phrases)}]}], generationConfig:gen }) })
+    .then(readJson).then(function(j){
+      var parts=(j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[];
+      var raw=parts.map(function(p){ return p.text||""; }).join("").trim().replace(/^```(?:json)?/i,"").replace(/```$/,"").trim();
+      var data; try{ data=JSON.parse(raw); }catch(e){ var m=raw.match(/\{[\s\S]*\}/); if(!m) throw new Error("Could not read the reply."); data=JSON.parse(m[0]); }
+      var out={};
+      (data.items||[]).forEach(function(it){ out[norm(it.query||"")]=(it.options||[]).slice(0,3).map(function(o){ return { name:String(o.name||"Food"), k:Math.max(0,+o.kcal_100g||0), p:Math.max(0,+o.protein_100g||0), c:Math.max(0,+o.carbs_100g||0), f:Math.max(0,+o.fat_100g||0), serving:Math.max(1,Math.round(+o.serving_g||100)) }; }); });
+      return out;
+    }).catch(function(e){
+      if(e.message==="modelmissing") return testKey(cfg.key).then(function(m){ cfg.model=m; saveCfg(); return askAI(phrases); });
+      if(/failed to fetch|networkerror|load failed/i.test(e.message)) throw new Error("No internet for the AI right now.");
+      throw e;
+    });
+  }
+
+  /* ---------- sheets (edit) ---------- */
+  var openEl=null;
+  function openSheet(el){ if(openEl) openEl.classList.remove("on"); openEl=el; $("scrim").classList.add("on"); el.classList.add("on"); }
+  function closeSheet(){ if(openEl) openEl.classList.remove("on"); openEl=null; $("scrim").classList.remove("on"); }
+  $("scrim").addEventListener("click",closeSheet);
+  function buildSeg(el,current,onPick){ el.innerHTML=""; MEALS.forEach(function(m){ var b=document.createElement("button"); b.textContent=m; if(m===current) b.className="on"; b.addEventListener("click",function(){ el.querySelectorAll("button").forEach(function(x){ x.className=""; }); b.className="on"; onPick(m); }); el.appendChild(b); }); }
+  function r1(n){ return Math.round(n*10)/10; }
+  var editId=null, editMeal="";
+  function openEdit(id){
+    var en=(days[viewing]||[]).filter(function(x){ return x.id===id; })[0]; if(!en) return;
+    editId=id; editMeal=en.meal||mealNow(); $("eTitle").textContent=en.name; buildSeg($("eSeg"),editMeal,function(m){ editMeal=m; });
+    $("eName").value=en.name; $("eG").value=en.g;
+    $("ePer").textContent="per 100 g: "+Math.round(en.k100)+" kcal, "+r1(en.p100)+" g protein, "+r1(en.c100)+" g carbs, "+r1(en.f100)+" g fat";
+    function paint(){ var v=calc({g:+$("eG").value||0,k100:en.k100,p100:en.p100,c100:en.c100,f100:en.f100}); $("eKc").textContent=v.kcal+" kcal"; $("eMm").textContent=v.p+" g protein"; }
+    $("eG").oninput=paint; paint(); openSheet($("editSheet"));
+  }
+  $("eSave").addEventListener("click",function(){ var list=days[viewing]||[]; for(var i=0;i<list.length;i++) if(list[i].id===editId){ list[i].name=$("eName").value||list[i].name; list[i].g=+$("eG").value||0; list[i].meal=editMeal; list[i].synced=false; break; } saveDays(); closeSheet(); render(); flushSync(); });
+  $("eDel").addEventListener("click",function(){ closeSheet(); deleteEntry(editId); });
+
+  /* ---------- sync ---------- */
+  function post(payload){
+    var body=JSON.stringify(payload);
+    return fetch(cfg.sheet,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:body })
+      .then(function(r){ return r.text().then(function(t){ try{ return JSON.parse(t); }catch(e){ return {ok:true}; } }); })
+      .catch(function(){ return fetch(cfg.sheet,{ method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:body }).then(function(){ return {ok:true}; }); });
+  }
+  var syncing=false;
+  function flushSync(cb){
+    if(!cfg.sheet||syncing){ if(cb) cb(null); return; }
+    var items=[], dels=pendingDel.slice();
+    Object.keys(days).forEach(function(d){ (days[d]||[]).forEach(function(e){ if(!e.synced){ var v=calc(e); items.push({ e:e, row:{ id:e.id, date:d, time:e.t, meal:e.meal||"", name:e.name, grams:e.g, kcal:v.kcal, protein:v.p, carbs:v.c, fat:v.f } }); } }); });
+    if(!items.length&&!dels.length){ if(cb) cb({ok:true}); return; }
+    syncing=true;
+    post({ items:items.map(function(x){ return x.row; }), deleted:dels }).then(function(res){
+      syncing=false; if(res&&res.ok===false) throw new Error(res.error||"Sheet refused the rows.");
+      items.forEach(function(x){ x.e.synced=true; }); pendingDel=pendingDel.filter(function(id){ return dels.indexOf(id)<0; }); saveDays(); saveDel(); if(cb) cb(res||{ok:true});
+    }).catch(function(e){ syncing=false; if(cb) cb({ok:false,error:e.message}); });
+  }
+  $("syncNow").addEventListener("click",function(){
+    pullSet(); if(!cfg.sheet){ $("syncMsg").innerHTML='<div class="err">Paste the Sheet link first.</div>'; return; }
+    Object.keys(days).forEach(function(d){ (days[d]||[]).forEach(function(e){ e.synced=false; }); });
+    $("syncMsg").innerHTML='<div class="spin"><i></i>Sending</div>';
+    flushSync(function(res){ $("syncMsg").innerHTML=(!res||res.ok===false)?'<div class="err">'+esc((res&&res.error)||"Did not go through. The link must end in /exec.")+'</div>':'<div class="ok">Sent.</div>'; });
+  });
+
+  /* ---------- setup and settings ---------- */
+  function openSetup(){ $("wProt").value=cfg.prot; $("wGoal").value=cfg.goal; $("wKey").value=cfg.key||""; $("wGroq").value=cfg.groq||""; $("wSheet").value=cfg.sheet||""; $("setup").classList.add("on"); }
+  $("wDone").addEventListener("click",function(){
+    cfg.prot=Math.min(400,Math.max(10,+$("wProt").value||150)); cfg.goal=Math.min(6000,Math.max(800,+$("wGoal").value||2900));
+    cfg.key=$("wKey").value.trim(); cfg.groq=$("wGroq").value.trim(); cfg.engine=cfg.groq?"whisper":"chrome"; cfg.sheet=$("wSheet").value.trim(); cfg.done=true; saveCfg(); $("setup").classList.remove("on"); render();
+    if(cfg.key) testKey(cfg.key).then(function(m){ cfg.model=m; saveCfg(); }).catch(function(){});
+  });
+  function openSet(){
+    $("sProt").value=cfg.prot; $("sGoal").value=cfg.goal; $("sKey").value=cfg.key||""; $("sLang").value=cfg.lang||"en-IN"; $("sSheet").value=cfg.sheet||""; $("sGroq").value=cfg.groq||""; $("sEngine").value=cfg.engine||"whisper";
+    $("sKeyMsg").innerHTML=""; $("syncMsg").innerHTML=""; $("sModel").textContent=cfg.model?"Using "+cfg.model+".":"";
+    drawMyFoods(); openSheet($("setSheet"));
+  }
+  function pullSet(){ cfg.prot=Math.min(400,Math.max(10,+$("sProt").value||150)); cfg.goal=Math.min(6000,Math.max(800,+$("sGoal").value||2900)); cfg.key=$("sKey").value.trim(); cfg.lang=$("sLang").value; cfg.sheet=$("sSheet").value.trim(); cfg.groq=$("sGroq").value.trim(); cfg.engine=$("sEngine").value; saveCfg(); }
+  function drawMyFoods(){
+    var box=$("myFoods"); box.innerHTML="";
+    if(!learned.length){ box.innerHTML='<div class="hint">None yet.</div>'; return; }
+    learned.slice().reverse().forEach(function(r){
+      var d=document.createElement("div"); d.className="foodrow";
+      d.innerHTML='<b>'+esc(r[0])+'</b><span>'+Math.round(r[1])+' kcal, '+r1(r[2])+' P /100 g</span><button aria-label="Remove">&times;</button>';
+      d.querySelector("button").addEventListener("click",function(){ learned=learned.filter(function(x){ return x!==r; }); saveLearned(); drawMyFoods(); });
+      box.appendChild(d);
+    });
+  }
+  $("openSet").addEventListener("click",function(e){ e.stopPropagation(); openSet(); });
+  ["sProt","sGoal","sKey","sLang","sSheet","sGroq","sEngine"].forEach(function(id){ $(id).addEventListener("change",function(){ pullSet(); render(); }); });
+  $("setClose").addEventListener("click",function(){ var was=engine(); pullSet(); render(); closeSheet(); if(session && engine()!==was){ stopMic(); startMic(); } });
+  $("sKeyCheck").addEventListener("click",function(){
+    pullSet(); if(!cfg.key){ $("sKeyMsg").innerHTML='<div class="err">Paste a key first.</div>'; return; }
+    $("sKeyMsg").innerHTML='<div class="spin"><i></i>Checking</div>';
+    testKey(cfg.key).then(function(m){ cfg.model=m; saveCfg(); $("sModel").textContent="Using "+m+"."; $("sKeyMsg").innerHTML='<div class="ok">Key works.</div>'; })
+      .catch(function(e){ $("sKeyMsg").innerHTML='<div class="err">'+esc(e.message==="modelmissing"?"That key did not work.":e.message)+'</div>'; });
+  });
+  $("exportCsv").addEventListener("click",function(){
+    var rows=[["date","time","meal","food","grams","kcal","protein_g","carbs_g","fat_g"]];
+    Object.keys(days).sort().forEach(function(k){ (days[k]||[]).slice().sort(function(a,b){ return a.t<b.t?-1:1; }).forEach(function(e){ var v=calc(e); rows.push([k,e.t,e.meal||"",e.name,e.g,v.kcal,v.p,v.c,v.f]); }); });
+    var csv=rows.map(function(r){ return r.map(function(c){ var s=String(c); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }).join(","); }).join("\n");
+    var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="food-log-"+TODAY+".csv"; a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); },2000);
+  });
+  $("wipe").addEventListener("click",function(){ if(!confirm("Delete every logged meal on this phone? Your Sheet keeps its copy.")) return; days={}; pendingDel=[]; store.del("weigh.days"); store.del("weigh.del"); closeSheet(); render(); });
+
+  /* ---------- go ---------- */
+  render();
+  if(!cfg.done) openSetup();
+  else if(cfg.key && (!cfg.model||!/lite/.test(cfg.model))) testKey(cfg.key).then(function(m){ cfg.model=m; saveCfg(); }).catch(function(){});
+  var mp=micProblem(); if(mp) $("micWarn").innerHTML='<div class="banner amber">'+mp+'</div>';
+  flushSync();
+})();
+</script>
+</body>
+</html>
